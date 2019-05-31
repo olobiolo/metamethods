@@ -42,8 +42,8 @@ data.frame__to__grouped_df <- function(fun) {
       original_call <- as.list(match.call())
       # drop function and first argument to isolate additional arguments
       original_arguments <- original_call[-(1:2)]
-      # create name of data frame method to call
-      new_method <- sub('grouped_df', 'data.frame', as.character(original_call[[1]]))
+      # get data frame method
+      new_method <- utils::getS3method(f = 'percentage', class = 'data.frame', optional = FALSE)
       # save attributes of x
       xats <- attributes(x)
       # obtain a list of factors from grouping variables
@@ -55,7 +55,7 @@ data.frame__to__grouped_df <- function(fun) {
       # construct call to by
       new_call <-
         as.call(
-          append(list(quote(by), data = quote(X), INDICES = f_list, FUN = get(new_method)),
+          append(list(quote(by), data = quote(X), INDICES = f_list, FUN = new_method),
                  original_arguments))
       # run operation
       y <- eval(new_call)
