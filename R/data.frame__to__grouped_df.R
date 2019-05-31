@@ -35,7 +35,7 @@
 #'
 data.frame__to__grouped_df <- function(fun) {
   FORMALS <- formals(fun)
-  if (names(FORMALS)[1] != 'x') stop('the first argument of the function must be named "x"')
+  if (names(FORMALS)[1] != 'x') stop('the first argument of the function must be named "x", see package metamethods')
   BODY <- quote(
     {
       # capture call
@@ -43,7 +43,7 @@ data.frame__to__grouped_df <- function(fun) {
       # drop function and first argument to isolate additional arguments
       original_arguments <- original_call[-(1:2)]
       # get data frame method
-      new_method <- utils::getS3method(f = 'percentage', class = 'data.frame', optional = FALSE)
+      new_method <- utils::getS3method(f = original_call[[1]]), class = 'data.frame', optional = FALSE)
       # save attributes of x
       xats <- attributes(x)
       # obtain a list of factors from grouping variables
