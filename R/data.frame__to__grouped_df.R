@@ -40,10 +40,12 @@ data.frame__to__grouped_df <- function(fun) {
     {
       # capture call
       original_call <- as.list(match.call())
+      # isolate original method
+      original_method <- deparse(substitute(original_call[[1]]))
       # drop function and first argument to isolate additional arguments
       original_arguments <- original_call[-(1:2)]
       # get data frame method
-      new_method <- utils::getS3method(f = original_call[[1]], class = 'data.frame', optional = FALSE)
+      new_method <- utils::getS3method(f = original_method, class = 'data.frame', optional = FALSE)
       # save attributes of x
       xats <- attributes(x)
       # obtain a list of factors from grouping variables
