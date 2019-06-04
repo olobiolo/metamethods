@@ -1,5 +1,4 @@
 # metamethods
-
 Generalized creators of S3 methods.
 
 As of 29 May 2019 only does one thing:
