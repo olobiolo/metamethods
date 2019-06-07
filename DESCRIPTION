@@ -19,5 +19,4 @@ RoxygenNote: 6.1.1
 Imports: 
     dplyr,
     utils
-URL: http://github.com/olobiolo/centroidr
-BugReports: http://github.com/hadley/dplyr/issues
+URL: http://github.com/olobiolo/metamethods
