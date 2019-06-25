@@ -30,6 +30,8 @@ Grouping variables are isolated as a list and passed to the \code{INDICES} argum
 The \code{FUN} argument is set to \code{foo.data.frame},
 i.e. the \code{x} of \bold{this} function.
 The remaining arguments are passed as is.
+The resulting object of class \code{by} is converted to a list and \code{unsplit}
+back into a data frame.
 }
 \section{How to use}{
 

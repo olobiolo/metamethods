@@ -15,6 +15,8 @@
 #' The \code{FUN} argument is set to \code{foo.data.frame},
 #' i.e. the \code{x} of \bold{this} function.
 #' The remaining arguments are passed as is.
+#' The resulting object of class \code{by} is converted to a list and \code{unsplit}
+#' back into a data frame.
 #'
 #' @section How to use:
 #' When editing an .R file for generic \code{foo} and its S3 methods,
@@ -52,8 +54,6 @@ data.frame__to__grouped_df <- function(fun) {
       f_list <- as.list(x[dplyr::group_vars(x)])
       # convert x to normal data frame
       X <- data.frame(x)
-      # add temporary id column
-      X$temporary_id_column_9000 <- 1:nrow(X)
       # construct call to by
       new_call <-
         as.call(
@@ -61,11 +61,9 @@ data.frame__to__grouped_df <- function(fun) {
                  original_arguments))
       # run operation
       y <- eval(new_call)
-      # wrap resulting by object to data frame
-      Y <- do.call(rbind, y)
-      # reorder and clean up
-      Y <- Y[order(Y$temporary_id_column_9000), ]
-      Y <- Y[-which(names(Y) == 'temporary_id_column_9000')]
+      # convert resulting by object to list and then to data frame
+      yl <- lapply(y, identity)
+      Y <- unsplit(yl, f = f_list)
       # update column names within the attribute list
       xats$names <- names(Y)
       # restore attributes
