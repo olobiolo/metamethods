@@ -17,9 +17,3 @@
 #' @docType package
 #' @name metamethods
 NULL
-
-# proposed package names:
-# metamethods
-# S3 method generator
-# generalized methods
-# cmeth

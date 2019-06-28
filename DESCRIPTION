@@ -1,6 +1,6 @@
 Package: metamethods
 Title: Generalized Creators for S3 Methods
-Version: 0.2.1
+Version: 0.2.2
 Authors@R: 
     person(given = "Aleksander",
            family = "Chlebowski",
