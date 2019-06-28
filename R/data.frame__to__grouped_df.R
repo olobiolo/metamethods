@@ -6,7 +6,7 @@
 #' This is a utility function for writing packages.
 #' Functions that modify data frames by replacing or adding columns may fail
 #' on grouped data frames so the class will require a dedicated method.
-#' \code{metamethod} is a generalized constructor of such methods.
+#' This is a generalized constructor of such methods.
 #'
 #' In all cases the original call to \code{foo} is captured with \code{match.call}
 #' and reconstructed into a call to \code{by}. The first argument of \code{foo},
@@ -21,7 +21,7 @@
 #' @section How to use:
 #' When editing an .R file for generic \code{foo} and its S3 methods,
 #' simply add another entry where \code{foo.grouped_df} is defined as the result of
-#' \code{metamethod} acting on \code{foo.data.frame}.
+#' \code{data.frame__to__grouped_df} acting on \code{foo.data.frame}.
 #'
 #' Copy the following \code{roxygen} tag before the function definition
 #' to have it show up nicely in the documentation file:
