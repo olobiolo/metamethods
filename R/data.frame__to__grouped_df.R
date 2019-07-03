@@ -63,7 +63,7 @@ data.frame__to__grouped_df <- function(fun) {
       # construct call to lapply
       new_call <-
         as.call(
-          append(list(quote(lapply), X = quote(X), FUN = new_method),
+          append(list(quote(lapply), X = quote(Xs), FUN = new_method),
                  original_arguments))
       # run operation
       yl <- eval(new_call)
