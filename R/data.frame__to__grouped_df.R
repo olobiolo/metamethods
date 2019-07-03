@@ -52,17 +52,23 @@ data.frame__to__grouped_df <- function(fun) {
       xats <- attributes(x)
       # obtain a list of factors from grouping variables
       f_list <- as.list(x[dplyr::group_vars(x)])
-      # convert x to normal data frame
+      # convert x to normal data frame and split
       X <- data.frame(x)
-      # construct call to by
+      Xs <- split(X, f = f_list)
+      # # construct call to by
+      # new_call <-
+      #   as.call(
+      #     append(list(quote(by), data = quote(X), INDICES = f_list, FUN = new_method),
+      #            original_arguments))
+      # construct call to lapply
       new_call <-
         as.call(
-          append(list(quote(by), data = quote(X), INDICES = f_list, FUN = new_method),
+          append(list(quote(lapply), X = quote(X), FUN = new_method),
                  original_arguments))
       # run operation
-      y <- eval(new_call)
-      # convert resulting by object to list and then to data frame
-      yl <- lapply(y, identity)
+      yl <- eval(new_call)
+      # # convert resulting by object to list and then to data frame
+      # yl <- lapply(y, identity)
       Y <- unsplit(yl, f = f_list)
       # update column names within the attribute list
       xats$names <- names(Y)
