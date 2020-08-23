@@ -3,7 +3,6 @@
 \docType{package}
 \name{metamethods}
 \alias{metamethods}
-\alias{metamethods-package}
 \title{metamethods: Generalized converters for S3 methods.}
 \description{
 This package automatically creates S3 methods. Well, not so much creates as modifies.

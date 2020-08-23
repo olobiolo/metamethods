@@ -19,7 +19,7 @@
 #' back into a data frame.
 #'
 #' @section How to use:
-#' When editing an .R file for generic \code{foo} and its S3 methods,
+#' When creating an .R file for generic \code{foo} and its S3 methods,
 #' simply add another entry where \code{foo.grouped_df} is defined as the result of
 #' \code{data.frame__to__grouped_df} acting on \code{foo.data.frame}.
 #'
@@ -36,6 +36,8 @@
 #' @export
 #'
 data.frame__to__grouped_df <- function(fun) {
+
+  if (!is.function(fun)) stop('"fun" must be a function')
   FORMALS <- formals(fun)
   if (names(FORMALS)[1] != 'x') stop('the first argument of the function must be named "x", see package metamethods')
   BODY <- quote(
@@ -51,15 +53,11 @@ data.frame__to__grouped_df <- function(fun) {
       # save attributes of x
       xats <- attributes(x)
       # obtain a list of factors from grouping variables
-      f_list <- as.list(x[dplyr::group_vars(x)])
+      group_vars <- setdiff(names(attr(x, 'groups')), '.rows')
+      f_list <- as.list(x[group_vars])
       # convert x to normal data frame and split
       X <- data.frame(x)
       Xs <- split(X, f = f_list)
-      # # construct call to by
-      # new_call <-
-      #   as.call(
-      #     append(list(quote(by), data = quote(X), INDICES = f_list, FUN = new_method),
-      #            original_arguments))
       # construct call to lapply
       new_call <-
         as.call(
@@ -68,7 +66,6 @@ data.frame__to__grouped_df <- function(fun) {
       # run operation
       yl <- eval(new_call)
       # # convert resulting by object to list and then to data frame
-      # yl <- lapply(y, identity)
       Y <- unsplit(yl, f = f_list)
       # update column names within the attribute list
       xats$names <- names(Y)
@@ -80,4 +77,3 @@ data.frame__to__grouped_df <- function(fun) {
   FUN <- as.function(append(FORMALS, BODY))
   return(FUN)
 }
-

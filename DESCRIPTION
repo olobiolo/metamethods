@@ -1,6 +1,6 @@
 Package: metamethods
 Title: Generalized Creators for S3 Methods
-Version: 0.2.3
+Version: 0.3.0
 Authors@R: 
     person(given = "Aleksander",
            family = "Chlebowski",
@@ -12,10 +12,9 @@ Description: Automatically generate S3 methods for class
 License: GPL-3
 URL: http://github.com/olobiolo/metamethods
 Depends: 
-    R (>= 3.5.0)
+    R (>= 3.4.0)
 Imports: 
-    dplyr,
     utils
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.1
