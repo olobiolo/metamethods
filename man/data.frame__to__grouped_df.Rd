@@ -24,18 +24,17 @@ on grouped data frames so the class will require a dedicated method.
 This is a generalized constructor of such methods.
 
 In all cases the original call to \code{foo} is captured with \code{match.call}
-and reconstructed into a call to \code{by}. The first argument of \code{foo},
-which must be named \code{x}, is passed to the \code{data} argument of the new call.
-Grouping variables are isolated as a list and passed to the \code{INDICES} argument.
-The \code{FUN} argument is set to \code{foo.data.frame},
-i.e. the \code{x} of \bold{this} function.
-The remaining arguments are passed as is.
-The resulting object of class \code{by} is converted to a list and \code{unsplit}
-back into a data frame.
+and reconstructed into a call to the \code{data.frame} method.
+Grouping variables are isolated as a list, and the first argument of \code{foo},
+which must be named \code{x}, is split into a list with \code{split}, using the
+list of grouping variables as splitting factors. Empty levels are dropped.
+The list is then passed to \code{lapply}, with the call to the \code{data.frame} method
+as \code{FUN}. The result is reconstituted into a single \code{data.frame} with
+\code{unsplit}, again dropping empty levels.
 }
 \section{How to use}{
 
-When editing an .R file for generic \code{foo} and its S3 methods,
+When creating an .R file for generic \code{foo} and its S3 methods,
 simply add another entry where \code{foo.grouped_df} is defined as the result of
 \code{data.frame__to__grouped_df} acting on \code{foo.data.frame}.
 

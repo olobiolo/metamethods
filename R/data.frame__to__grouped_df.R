@@ -9,14 +9,13 @@
 #' This is a generalized constructor of such methods.
 #'
 #' In all cases the original call to \code{foo} is captured with \code{match.call}
-#' and reconstructed into a call to \code{by}. The first argument of \code{foo},
-#' which must be named \code{x}, is passed to the \code{data} argument of the new call.
-#' Grouping variables are isolated as a list and passed to the \code{INDICES} argument.
-#' The \code{FUN} argument is set to \code{foo.data.frame},
-#' i.e. the \code{x} of \bold{this} function.
-#' The remaining arguments are passed as is.
-#' The resulting object of class \code{by} is converted to a list and \code{unsplit}
-#' back into a data frame.
+#' and reconstructed into a call to the \code{data.frame} method.
+#' Grouping variables are isolated as a list, and the first argument of \code{foo},
+#' which must be named \code{x}, is split into a list with \code{split}, using the
+#' list of grouping variables as splitting factors. Empty levels are dropped.
+#' The list is then passed to \code{lapply}, with the call to the \code{data.frame} method
+#' as \code{FUN}. The result is reconstituted into a single \code{data.frame} with
+#' \code{unsplit}, again dropping empty levels.
 #'
 #' @section How to use:
 #' When creating an .R file for generic \code{foo} and its S3 methods,
@@ -57,7 +56,7 @@ data.frame__to__grouped_df <- function(fun) {
       f_list <- as.list(x[group_vars])
       # convert x to normal data frame and split
       X <- data.frame(x)
-      Xs <- split(X, f = f_list)
+      Xs <- split(X, f = f_list, drop = TRUE)
       # construct call to lapply
       new_call <-
         as.call(
@@ -66,7 +65,7 @@ data.frame__to__grouped_df <- function(fun) {
       # run operation
       yl <- eval(new_call)
       # # convert resulting by object to list and then to data frame
-      Y <- unsplit(yl, f = f_list)
+      Y <- unsplit(yl, f = f_list, drop = TRUE)
       # update column names within the attribute list
       xats$names <- names(Y)
       # restore attributes
